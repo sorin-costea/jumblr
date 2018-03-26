@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
 import org.scribe.model.OAuthRequest;
@@ -32,6 +34,7 @@ public class RequestBuilder {
     private String xauthEndpoint = "https://www.tumblr.com/oauth/access_token";
     private String version = "0.0.11";
     private final JumblrClient client;
+    private int timeoutSeconds;
 
     public RequestBuilder(JumblrClient client) {
         this.client = client;
@@ -102,6 +105,9 @@ public class RequestBuilder {
             }
         }
         request.addHeader("User-Agent", "jumblr/" + this.version);
+        request.setConnectTimeout(timeoutSeconds, TimeUnit.SECONDS);
+        request.setReadTimeout(timeoutSeconds, TimeUnit.SECONDS);
+        
 
         return request;
     }
@@ -117,6 +123,8 @@ public class RequestBuilder {
             request.addBodyParameter(key,value.toString());
         }
         request.addHeader("User-Agent", "jumblr/" + this.version);
+        request.setConnectTimeout(timeoutSeconds, TimeUnit.SECONDS);
+        request.setReadTimeout(timeoutSeconds, TimeUnit.SECONDS);
 
         return request;
     }
@@ -134,6 +142,10 @@ public class RequestBuilder {
 
     public void setToken(final Token token) {
         this.token = token;
+    }
+
+    public void setTimeoutSeconds(final int timeoutSeconds) {
+        this.timeoutSeconds = timeoutSeconds;
     }
 
     /* package-visible for testing */ ResponseWrapper clear(Response response) {
