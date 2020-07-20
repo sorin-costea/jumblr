@@ -14,7 +14,7 @@ public class Blog extends Resource {
     private String description;
     private int posts, likes, followers;
     private Long updated;
-    private boolean ask, ask_anon;
+    private boolean ask, ask_anon, followed;
 
     /**
      * Get the description of this blog
@@ -38,6 +38,14 @@ public class Blog extends Resource {
      */
     public boolean canAskAnonymously() {
         return this.ask_anon;
+    }
+
+    /**
+     * Is this blog followed?
+     * @return boolean
+     */
+    public boolean isFollowed() {
+        return this.followed;
     }
 
     /**
@@ -106,7 +114,9 @@ public class Blog extends Resource {
         return client.blogFollowers(this.name, options);
     }
 
-    public List<User> followers() { return this.followers(null); }
+    public List<User> followers() {
+        return this.followers(null);
+    }
 
     /**
      * Get the posts for this blog
@@ -139,7 +149,9 @@ public class Blog extends Resource {
         return client.blogLikes(this.name, options);
     }
 
-    public List<Post> likedPosts() { return this.likedPosts(null); }
+    public List<Post> likedPosts() {
+        return this.likedPosts(null);
+    }
 
     /**
      * Follow this blog
