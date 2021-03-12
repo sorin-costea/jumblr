@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.Resource;
 import com.tumblr.jumblr.types.User;
@@ -98,6 +99,14 @@ public class ResponseWrapper {
     return l;
   }
 
+  // NOTE: needs to be duplicated logic due to Java erasure of generic types
+  public Notifications getNotifications() {
+    final Gson gson = gsonParser();
+    final Notifications n = gson.fromJson(response.toString(), Notifications.class);
+    n.setClient(client);
+    return n;
+  }
+
   /**
    **
    **/
@@ -111,7 +120,8 @@ public class ResponseWrapper {
   }
 
   private Gson gsonParser() {
-    return new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
+    return new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer())
+        .registerTypeAdapter(Long.class, new LongTypeAdapter()).create();
   }
 
 }

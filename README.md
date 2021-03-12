@@ -167,6 +167,18 @@ options.put("offset", 5);
 List<Post> posts = blog.posts(options);
 ```
 
+### Activity feed
+
+Especially when checking a blog's activity feed you'll need pagination and another bunch of options, including a special way to serialize query parameter arrays.
+
+``` java
+Map<String, Object> options = new HashMap<String, Object>();
+options.put("before", 12345);
+options.put("types[0]", "like");
+options.put("types[1]", "follow");
+List<Notification> notifications = blog.notifications(options);
+```
+
 ### Errors
 
 Any connection errors will raise a `JumblrException`, which you can get more

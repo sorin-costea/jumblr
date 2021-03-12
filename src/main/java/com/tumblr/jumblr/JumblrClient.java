@@ -2,6 +2,7 @@ package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import org.scribe.model.Token;
@@ -24,7 +25,7 @@ public class JumblrClient {
   private String apiKey;
 
   public JumblrClient() {
-    this.requestBuilder = new RequestBuilder(this);
+    requestBuilder = new RequestBuilder(this);
   }
 
   /**
@@ -37,8 +38,8 @@ public class JumblrClient {
    */
   public JumblrClient(final String consumerKey, final String consumerSecret) {
     this();
-    this.requestBuilder.setConsumer(consumerKey, consumerSecret);
-    this.apiKey = consumerKey;
+    requestBuilder.setConsumer(consumerKey, consumerSecret);
+    apiKey = consumerKey;
   }
 
   /**
@@ -68,7 +69,7 @@ public class JumblrClient {
    *          The token secret for the client
    */
   public void setToken(final String token, final String tokenSecret) {
-    this.requestBuilder.setToken(token, tokenSecret);
+    requestBuilder.setToken(token, tokenSecret);
   }
 
   /**
@@ -78,7 +79,7 @@ public class JumblrClient {
    *          The token for the client.
    */
   public void setToken(final Token token) {
-    this.requestBuilder.setToken(token);
+    requestBuilder.setToken(token);
   }
 
   /**
@@ -90,7 +91,7 @@ public class JumblrClient {
    *          the user's login password.
    */
   public void xauth(final String email, final String password) {
-    setToken(this.requestBuilder.postXAuth(email, password));
+    setToken(requestBuilder.postXAuth(email, password));
   }
 
   /**
@@ -107,6 +108,7 @@ public class JumblrClient {
    *
    * @param options
    *          the options for the call (or null)
+   *
    * @return A List of posts
    */
   public List<Post> userDashboard(final Map<String, ?> options) {
@@ -122,6 +124,7 @@ public class JumblrClient {
    *
    * @param options
    *          the options
+   *
    * @return a List of blogs
    */
   public List<Blog> userFollowing(final Map<String, ?> options) {
@@ -139,6 +142,7 @@ public class JumblrClient {
    *          the tag to search
    * @param options
    *          the options for the call (or null)
+   *
    * @return a list of posts
    */
   public List<Post> tagged(final String tag, Map<String, ?> options) {
@@ -160,11 +164,12 @@ public class JumblrClient {
    *
    * @param blogName
    *          the Name of the blog
+   *
    * @return The Blog object for this blog
    */
   public Blog blogInfo(final String blogName) {
     final Map<String, String> map = new HashMap<String, String>();
-    map.put("api_key", this.apiKey);
+    map.put("api_key", apiKey);
     return requestBuilder.get(JumblrClient.blogPath(blogName, "/info"), map).getBlog();
   }
 
@@ -175,6 +180,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return the blog object for this blog
    */
   public List<User> blogFollowers(final String blogName, final Map<String, ?> options) {
@@ -192,6 +198,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> blogLikes(final String blogName, Map<String, ?> options) {
@@ -199,12 +206,35 @@ public class JumblrClient {
       options = Collections.emptyMap();
     }
     final Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
-    soptions.put("api_key", this.apiKey);
+    soptions.put("api_key", apiKey);
     return requestBuilder.get(JumblrClient.blogPath(blogName, "/likes"), soptions).getLikedPosts();
   }
 
   public List<Post> blogLikes(final String blogName) {
     return this.blogLikes(blogName, null);
+  }
+
+  /**
+   * Get the activity feed for a given blog
+   *
+   * @param blogName
+   *          the name of the blog
+   * @param options
+   *          the options for this call (or null)
+   *
+   * @return a List of notifications
+   */
+  public Notifications blogNotifications(final String blogName, Map<String, ?> options) {
+    if (options == null) {
+      options = Collections.emptyMap();
+    }
+    final Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
+    soptions.put("api_key", apiKey);
+    return requestBuilder.get(JumblrClient.blogPath(blogName, "/notifications"), soptions).getNotifications();
+  }
+
+  public Notifications blogNotifications(final String blogName) {
+    return this.blogNotifications(blogName, null);
   }
 
   /**
@@ -214,6 +244,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> blogPosts(final String blogName, Map<String, ?> options) {
@@ -242,6 +273,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param postId
    *          the id of the post to get
+   *
    * @return the Post or null
    */
   public Post blogPost(final String blogName, final Long postId) {
@@ -258,6 +290,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> blogQueuedPosts(final String blogName, final Map<String, ?> options) {
@@ -275,6 +308,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> blogDraftPosts(final String blogName, final Map<String, ?> options) {
@@ -292,6 +326,7 @@ public class JumblrClient {
    *          the name of the blog
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> blogSubmissions(final String blogName, final Map<String, ?> options) {
@@ -307,6 +342,7 @@ public class JumblrClient {
    *
    * @param options
    *          the options for this call (or null)
+   *
    * @return a List of posts
    */
   public List<Post> userLikes(final Map<String, ?> options) {
@@ -324,10 +360,12 @@ public class JumblrClient {
    *          the name of your blog
    * @param otherBlogName
    *          the name of the blog to check
+   *
    * @return a boolean, true when the queried blog follows your blog
    */
   public boolean blogFollowedBy(final String blogName, final String otherBlogName) {
-    return requestBuilder.get(JumblrClient.blogPath(blogName, "/followed_by?query=" + otherBlogName), null).getFollowedBy();
+    return requestBuilder.get(JumblrClient.blogPath(blogName, "/followed_by?query=" + otherBlogName), null)
+        .getFollowedBy();
   }
 
   /**
@@ -337,6 +375,7 @@ public class JumblrClient {
    *          the avatar URL of the blog
    * @param size
    *          The size requested
+   *
    * @return a string representing the URL of the avatar
    */
   public String blogAvatar(final String blogName, final Integer size) {
@@ -427,6 +466,7 @@ public class JumblrClient {
    *          the reblog_key of the post
    * @param options
    *          Additional options (or null)
+   *
    * @return The created reblog Post or null
    */
   public Post postReblog(final String blogName, final Long postId, final String reblogKey, Map<String, ?> options) {
@@ -437,7 +477,7 @@ public class JumblrClient {
     soptions.put("id", postId.toString());
     soptions.put("reblog_key", reblogKey);
     final Long reblogId = requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), soptions).getId();
-    return this.blogPost(blogName, reblogId);
+    return blogPost(blogName, reblogId);
   }
 
   /**
@@ -449,6 +489,7 @@ public class JumblrClient {
    *          the id of the post
    * @param reblogKey
    *          the reblog_key of the post
+   *
    * @return The created reblog Post or null
    */
   public Post postReblog(final String blogName, final Long postId, final String reblogKey) {
@@ -464,6 +505,7 @@ public class JumblrClient {
    *          the Post id
    * @param detail
    *          The detail to save
+   *
    * @throws IOException
    *           if any file specified in detail cannot be read
    */
@@ -480,7 +522,9 @@ public class JumblrClient {
    *          The blog name for the post
    * @param detail
    *          the detail to save
+   *
    * @return Long the created post's id
+   *
    * @throws IOException
    *           if any file specified in detail cannot be read
    */
@@ -497,7 +541,9 @@ public class JumblrClient {
    *          the type of Post to instantiate
    * @param <T>
    *          the type of Post to instantiate
+   *
    * @return the new post with the client set
+   *
    * @throws IllegalAccessException
    *           if class instantiation fails
    * @throws InstantiationException
@@ -525,7 +571,7 @@ public class JumblrClient {
   }
 
   public void setRequestBuilder(final RequestBuilder builder) {
-    this.requestBuilder = builder;
+    requestBuilder = builder;
   }
 
   public RequestBuilder getRequestBuilder() {
