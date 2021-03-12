@@ -176,7 +176,7 @@ Map<String, Object> options = new HashMap<String, Object>();
 options.put("before", 12345);
 options.put("types[0]", "like");
 options.put("types[1]", "follow");
-List<Notification> notifications = blog.notifications(options);
+Notifications notifications = blog.notifications(options);
 ```
 
 ### Errors
