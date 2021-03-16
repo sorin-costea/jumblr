@@ -2,11 +2,13 @@ package com.tumblr.jumblr.responses;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.Resource;
@@ -49,6 +51,7 @@ public class ResponseWrapper {
   public List<Post> getPosts() {
     final Gson gson = gsonParser();
     final JsonObject object = (JsonObject) response;
+    final JsonArray a;
     final List<Post> l = gson.fromJson(object.get("posts"), new TypeToken<List<Post>>() {}.getType());
     for (final Post e : l) {
       e.setClient(client);
@@ -99,10 +102,16 @@ public class ResponseWrapper {
     return l;
   }
 
-  // NOTE: needs to be duplicated logic due to Java erasure of generic types
   public Notifications getNotifications() {
     final Gson gson = gsonParser();
     final Notifications n = gson.fromJson(response.toString(), Notifications.class);
+    n.setClient(client);
+    return n;
+  }
+
+  public Notes getNotes() {
+    final Gson gson = gsonParser();
+    final Notes n = gson.fromJson(response.toString(), Notes.class);
     n.setClient(client);
     return n;
   }

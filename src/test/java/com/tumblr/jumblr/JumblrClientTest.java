@@ -173,6 +173,29 @@ public class JumblrClientTest {
   }
 
   @Test
+  public void blogNotifications() throws IOException {
+    client.blogNotifications("hey.com");
+    verify(builder).get("/blog/hey.com/notifications", getApiKeyOptions());
+
+    final Map<String, Object> options = getRandomishOptions();
+    client.blogNotifications("hey.com", options);
+    options.putAll(getApiKeyOptions());
+    verify(builder).get("/blog/hey.com/notifications", options);
+  }
+
+  @Test
+  public void blogPostNotes() throws IOException {
+    final Long id = 42L;
+    client.blogPostNotes("hey.com", id);
+    verify(builder).get("/blog/hey.com/notes", getPostOptions());
+
+    final Map<String, Object> options = getRandomishOptions();
+    client.blogPostNotes("hey.com", id, options);
+    options.putAll(getPostOptions());
+    verify(builder).get("/blog/hey.com/notes", options);
+  }
+
+  @Test
   public void blogPosts() {
     client.blogPosts("hey.com");
     verify(builder).get("/blog/hey.com/posts", getApiKeyOptions());
@@ -318,15 +341,22 @@ public class JumblrClientTest {
    * Helper methods
    */
 
-  private Map<String, Object> getApiKeyOptions() {
+  private static Map<String, Object> getApiKeyOptions() {
     final Map<String, Object> map = new HashMap<String, Object>();
     map.put("api_key", "ck");
     return map;
   }
 
-  private Map<String, Object> getRandomishOptions() {
+  private static Map<String, Object> getRandomishOptions() {
     final Map<String, Object> map = new HashMap<String, Object>();
     map.put("hello", "world");
+    return map;
+  }
+
+  private static Map<String, Object> getPostOptions() {
+    final Map<String, Object> map = new HashMap<String, Object>();
+    map.put("id", 42L);
+    map.putAll(getApiKeyOptions());
     return map;
   }
 

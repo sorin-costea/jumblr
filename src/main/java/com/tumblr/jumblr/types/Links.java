@@ -1,9 +1,13 @@
 package com.tumblr.jumblr.types;
 
-public class Links {
-  private Next next;
+public class Links extends Resource {
+  private Link next, previous;
 
-  public Next getNext() {
+  public Link getNext() {
     return next;
+  }
+
+  public Link getPrevious() {
+    return previous;
   }
 }

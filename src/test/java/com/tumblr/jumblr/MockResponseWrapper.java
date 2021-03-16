@@ -2,6 +2,8 @@ package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Notes;
+import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 
@@ -17,6 +19,16 @@ public class MockResponseWrapper extends ResponseWrapper {
   @Override
   public List<Post> getPosts() {
     return new ArrayList<Post>();
+  }
+
+  @Override
+  public Notifications getNotifications() {
+    return new Notifications();
+  }
+
+  @Override
+  public Notes getNotes() {
+    return new Notes();
   }
 
   @Override
