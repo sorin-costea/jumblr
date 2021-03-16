@@ -257,6 +257,24 @@ public class Blog extends Resource {
   }
 
   /**
+   * Get the notes feed for a given post
+   *
+   * @param id
+   *          the requested post ID
+   * @param options
+   *          a map of options (or null)
+   *
+   * @return Notes object
+   */
+  public Notes postNotes(final Long id, final Map<String, ?> options) {
+    return client.blogPostNotes(name, id, options);
+  }
+
+  public Notes postNotes(final Long id) {
+    return this.postNotes(id, null);
+  }
+
+  /**
    * Create a new post of a given type for this blog
    *
    * @param klass

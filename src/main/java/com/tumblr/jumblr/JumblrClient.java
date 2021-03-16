@@ -2,6 +2,7 @@ package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
@@ -555,6 +556,32 @@ public class JumblrClient {
     post.setClient(this);
     post.setBlogName(blogName);
     return post;
+  }
+
+  /**
+   * Get the notes list for a given post
+   *
+   * @param blogName
+   *          The blog name of the post
+   * @param id
+   *          the Post id
+   * @param options
+   *          the options for this call (or null)
+   *
+   * @return a List of notes
+   */
+  public Notes blogPostNotes(final String blogName, final Long id, Map<String, ?> options) {
+    if (options == null) {
+      options = Collections.emptyMap();
+    }
+    final Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
+    soptions.put("api_key", apiKey);
+    soptions.put("id", id);
+    return requestBuilder.get(JumblrClient.blogPath(blogName, "/notes"), soptions).getNotes();
+  }
+
+  public Notes blogPostNotes(final String blogName, final Long id) {
+    return this.blogPostNotes(blogName, id, null);
   }
 
   /**

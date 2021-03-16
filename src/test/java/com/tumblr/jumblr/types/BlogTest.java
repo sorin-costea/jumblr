@@ -161,4 +161,12 @@ public class BlogTest extends TypeTest {
     verify(client).blogNotifications(name, options);
   }
 
+  @Test
+  public void postNotes() {
+    final Map<String, String> options = new HashMap<String, String>();
+    final Long id = 42L;
+    blog.postNotes(id, options);
+    verify(client).blogPostNotes(name, id, options);
+  }
+
 }
