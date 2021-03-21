@@ -352,7 +352,7 @@ public abstract class Post extends Resource {
   }
 
   public Boolean isOriginal() {
-    if (reblogged_from_name != null || trail == null || trail.isEmpty()
+    if (reblogged_from_name == null || trail == null || trail.isEmpty()
         || trail.get(0).getBlog().getName().compareToIgnoreCase(blog_name) == 0) {
       return true;
     }
