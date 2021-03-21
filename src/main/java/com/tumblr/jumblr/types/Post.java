@@ -351,14 +351,6 @@ public abstract class Post extends Resource {
     return this.reblog(blogName, null);
   }
 
-  public Boolean isOriginal() {
-    if (reblogged_from_name == null || trail == null || trail.isEmpty()
-        || trail.get(0).getBlog().getName().compareToIgnoreCase(blog_name) == 0) {
-      return true;
-    }
-    return false;
-  }
-
   /**
    * Like this post
    */
