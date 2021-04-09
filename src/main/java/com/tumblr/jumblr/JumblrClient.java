@@ -1,5 +1,6 @@
 package com.tumblr.jumblr;
 
+import com.tumblr.jumblr.request.RateLimits;
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Notes;
@@ -603,6 +604,10 @@ public class JumblrClient {
 
   public RequestBuilder getRequestBuilder() {
     return requestBuilder;
+  }
+
+  public RateLimits getRateLimits() {
+    return requestBuilder.getRateLimits();
   }
 
   private static Map<String, Object> safeOptionMap(final Map<String, ?> map) {
