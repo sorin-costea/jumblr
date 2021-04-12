@@ -180,16 +180,20 @@ public class Blog extends Resource {
 
   /**
    * Follow this blog
+   *
+   * @return
    */
-  public void follow() {
-    client.follow(name);
+  public Blog follow() {
+    return client.follow(name);
   }
 
   /**
    * Unfollow this blog
+   *
+   * @return
    */
-  public void unfollow() {
-    client.unfollow(name);
+  public Blog unfollow() {
+    return client.unfollow(name);
   }
 
   /**

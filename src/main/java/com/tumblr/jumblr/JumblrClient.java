@@ -424,11 +424,13 @@ public class JumblrClient {
    *
    * @param blogName
    *          The name of the blog to follow
+   *
+   * @return
    */
-  public void follow(final String blogName) {
+  public Blog follow(final String blogName) {
     final Map<String, String> map = new HashMap<String, String>();
     map.put("url", JumblrClient.blogUrl(blogName));
-    requestBuilder.post("/user/follow", map);
+    return requestBuilder.post("/user/follow", map).getBlog();
   }
 
   /**
@@ -436,11 +438,13 @@ public class JumblrClient {
    *
    * @param blogName
    *          the name of the blog to unfollow
+   *
+   * @return
    */
-  public void unfollow(final String blogName) {
+  public Blog unfollow(final String blogName) {
     final Map<String, String> map = new HashMap<String, String>();
     map.put("url", JumblrClient.blogUrl(blogName));
-    requestBuilder.post("/user/unfollow", map);
+    return requestBuilder.post("/user/unfollow", map).getBlog();
   }
 
   /**
