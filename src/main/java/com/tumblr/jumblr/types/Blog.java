@@ -16,6 +16,7 @@ public class Blog extends Resource {
   private int posts, likes, followers;
   private Long updated;
   private boolean ask, ask_anon, followed;
+  private Avatar[] avatar;
 
   /**
    * Get the description of this blog
@@ -305,6 +306,13 @@ public class Blog extends Resource {
    */
   public void setName(final String name) {
     this.name = name;
+  }
+
+  /**
+   * @return the avatar list
+   */
+  public Avatar[] getAvatar() {
+    return avatar;
   }
 
 }
