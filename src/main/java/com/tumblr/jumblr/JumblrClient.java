@@ -3,6 +3,7 @@ package com.tumblr.jumblr;
 import com.tumblr.jumblr.request.RateLimits;
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Limit;
 import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
@@ -119,6 +120,14 @@ public class JumblrClient {
 
   public List<Post> userDashboard() {
     return this.userDashboard(null);
+  }
+
+  public Map<String, Limit> userLimits(final Map<String, ?> options) {
+    return requestBuilder.get("/user/limits", options).getUserLimits().getUser();
+  }
+
+  public Map<String, Limit> userLimits() {
+    return this.userLimits(null);
   }
 
   /**

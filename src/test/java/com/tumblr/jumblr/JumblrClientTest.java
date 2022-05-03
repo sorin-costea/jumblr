@@ -61,6 +61,16 @@ public class JumblrClientTest {
   }
 
   @Test
+  public void userLimits() {
+    client.userLimits();
+    verify(builder).get("/user/limits", null);
+
+    final Map<String, Object> options = getRandomishOptions();
+    client.userLimits(options);
+    verify(builder).get("/user/limits", options);
+  }
+
+  @Test
   public void userFollowing() {
     client.userFollowing();
     verify(builder).get("/user/following", null);

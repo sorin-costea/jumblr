@@ -6,6 +6,7 @@ import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import com.tumblr.jumblr.types.UserLimits;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,11 @@ public class MockResponseWrapper extends ResponseWrapper {
   @Override
   public boolean getFollowedBy() {
     return true;
+  }
+
+  @Override
+  public UserLimits getUserLimits() {
+    return new UserLimits();
   }
 
 }

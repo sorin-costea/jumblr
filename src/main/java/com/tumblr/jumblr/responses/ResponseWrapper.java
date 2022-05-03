@@ -13,6 +13,7 @@ import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.Resource;
 import com.tumblr.jumblr.types.User;
+import com.tumblr.jumblr.types.UserLimits;
 
 import java.util.List;
 
@@ -114,6 +115,13 @@ public class ResponseWrapper {
     final Notes n = gson.fromJson(response.toString(), Notes.class);
     n.setClient(client);
     return n;
+  }
+
+  public UserLimits getUserLimits() {
+    final Gson gson = gsonParser();
+    final UserLimits l = gson.fromJson(response.toString(), UserLimits.class);
+    l.setClient(client);
+    return l;
   }
 
   /**
