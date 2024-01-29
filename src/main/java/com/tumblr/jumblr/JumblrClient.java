@@ -1,5 +1,11 @@
 package com.tumblr.jumblr;
 
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.tumblr.jumblr.request.RateLimits;
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
@@ -9,12 +15,6 @@ import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import org.scribe.model.Token;
-
-import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This is the base JumblrClient that is used to make requests to the Tumblr API. All calls that can be made from other
@@ -265,12 +265,12 @@ public class JumblrClient {
     final Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
     soptions.put("api_key", apiKey);
 
-    String path = "/posts";
+    final StringBuilder path = new StringBuilder("/posts");
     if (soptions.containsKey("type")) {
-      path += "/" + soptions.get("type").toString();
+      path.append("/").append(soptions.get("type").toString());
       soptions.remove("type");
     }
-    return requestBuilder.get(JumblrClient.blogPath(blogName, path), soptions).getPosts();
+    return requestBuilder.get(JumblrClient.blogPath(blogName, path.toString()), soptions).getPosts();
   }
 
   public List<Post> blogPosts(final String blogName) {
@@ -284,14 +284,22 @@ public class JumblrClient {
    *          the name of the blog
    * @param postId
    *          the id of the post to get
+   * @param options
+   *          the options for this call (or null)
    *
    * @return the Post or null
    */
-  public Post blogPost(final String blogName, final Long postId) {
-    final HashMap<String, String> options = new HashMap<String, String>();
+  public Post blogPost(final String blogName, final Long postId, Map<String, String> options) {
+    if (options == null) {
+      options = new HashMap<String, String>();
+    }
     options.put("id", postId.toString());
     final List<Post> posts = this.blogPosts(blogName, options);
     return posts.size() > 0 ? posts.get(0) : null;
+  }
+
+  public Post blogPost(final String blogName, final Long postId) {
+    return blogPost(blogName, postId, null);
   }
 
   /**
@@ -624,9 +632,7 @@ public class JumblrClient {
   }
 
   private static Map<String, Object> safeOptionMap(final Map<String, ?> map) {
-    final Map<String, Object> mod = new HashMap<String, Object>();
-    mod.putAll(map);
-    return mod;
+    return new HashMap<String, Object>(map);
   }
 
 }

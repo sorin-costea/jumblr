@@ -1,7 +1,5 @@
 package com.tumblr.jumblr.types;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -11,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * This class is the base of all post types on Tumblr
@@ -50,7 +50,7 @@ public abstract class Post extends Resource {
   private String author;
   private String reblog_key;
   private String blog_name;
-  private String post_url, short_url;
+  private String post_url, short_url, parent_post_url;
   private Long timestamp;
   private Long liked_timestamp;
   private String state;
@@ -149,6 +149,15 @@ public abstract class Post extends Resource {
    */
   public String getPostUrl() {
     return post_url;
+  }
+
+  /**
+   * Get the parent post URL for this post
+   *
+   * @return the parent URL
+   */
+  public String getParentPostUrl() {
+    return parent_post_url;
   }
 
   /**
