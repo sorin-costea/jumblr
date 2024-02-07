@@ -7,15 +7,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.QuotePost;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Tests for JumblrClient
@@ -159,6 +159,10 @@ public class JumblrClientTest {
 
     client.blogInfo("blog_name.com");
     verify(builder).get("/blog/blog_name.com/info", map);
+
+    map.put("fields[blogs]", "%3Fis_following_you");
+    client.blogInfo("blog_name", map);
+    verify(builder).get("/blog/blog_name.tumblr.com/info", map);
   }
 
   @Test

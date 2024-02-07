@@ -15,7 +15,7 @@ public class Blog extends Resource {
   private String description;
   private int posts, likes, followers;
   private Long updated;
-  private boolean ask, ask_anon, followed;
+  private boolean ask, ask_anon, followed, is_following_you;
   private Avatar[] avatar;
 
   /**
@@ -52,6 +52,15 @@ public class Blog extends Resource {
    */
   public boolean isFollowed() {
     return followed;
+  }
+
+  /**
+   * Is this blog following you?
+   *
+   * @return boolean
+   */
+  public boolean isFollowingYou() {
+    return is_following_you;
   }
 
   /**

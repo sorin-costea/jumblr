@@ -175,13 +175,22 @@ public class JumblrClient {
    *
    * @param blogName
    *          the Name of the blog
+   * @param options
+   *          the options for this call (or null)
    *
    * @return The Blog object for this blog
    */
+  public Blog blogInfo(final String blogName, Map<String, ?> options) {
+    if (options == null) {
+      options = Collections.emptyMap();
+    }
+    final Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
+    soptions.put("api_key", apiKey);
+    return requestBuilder.get(JumblrClient.blogPath(blogName, "/info"), soptions).getBlog();
+  }
+
   public Blog blogInfo(final String blogName) {
-    final Map<String, String> map = new HashMap<String, String>();
-    map.put("api_key", apiKey);
-    return requestBuilder.get(JumblrClient.blogPath(blogName, "/info"), map).getBlog();
+    return this.blogInfo(blogName, null);
   }
 
   /**
