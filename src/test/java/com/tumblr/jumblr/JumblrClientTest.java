@@ -145,8 +145,8 @@ public class JumblrClientTest {
 
   @Test
   public void blogFollowedBy() {
-    client.blogFollowedBy("nobeerreviews", "beforevenice");
-    verify(builder).get("/blog/nobeerreviews.tumblr.com/followed_by?query=beforevenice", null);
+    client.blogFollowedBy("hey1", "hey2");
+    verify(builder).get("/blog/hey1.tumblr.com/followed_by?query=hey2", null);
   }
 
   @Test
