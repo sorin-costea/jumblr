@@ -1,5 +1,7 @@
 package com.tumblr.jumblr.responses;
 
+import java.util.List;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -7,15 +9,16 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.tumblr.jumblr.JumblrClient;
+import com.tumblr.jumblr.types.AudioPost;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
+import com.tumblr.jumblr.types.Photo;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.Resource;
 import com.tumblr.jumblr.types.User;
 import com.tumblr.jumblr.types.UserLimits;
-
-import java.util.List;
+import com.tumblr.jumblr.types.VideoPost;
 
 public class ResponseWrapper {
 
@@ -138,7 +141,9 @@ public class ResponseWrapper {
 
   private Gson gsonParser() {
     return new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer())
-        .registerTypeAdapter(Long.class, new LongTypeAdapter()).create();
+        .registerTypeAdapter(Long.class, new LongTypeAdapter()).registerTypeAdapter(Photo.class, new PhotoTypeAdapter())
+        .registerTypeAdapter(VideoPost.class, new VideoPostTypeAdapter())
+        .registerTypeAdapter(AudioPost.class, new AudioPostTypeAdapter()).create();
   }
 
 }

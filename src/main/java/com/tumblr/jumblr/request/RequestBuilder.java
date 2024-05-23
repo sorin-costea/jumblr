@@ -1,13 +1,25 @@
 package com.tumblr.jumblr.request;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.exceptions.JumblrException;
+import com.tumblr.jumblr.responses.AudioPostTypeAdapter;
 import com.tumblr.jumblr.responses.JsonElementDeserializer;
+import com.tumblr.jumblr.responses.PhotoTypeAdapter;
 import com.tumblr.jumblr.responses.ResponseWrapper;
+import com.tumblr.jumblr.responses.VideoPostTypeAdapter;
+import com.tumblr.jumblr.types.AudioPost;
+import com.tumblr.jumblr.types.Photo;
+import com.tumblr.jumblr.types.VideoPost;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
 import org.scribe.model.OAuthRequest;
@@ -15,12 +27,6 @@ import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
-
-import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Where requests are made from
@@ -55,9 +61,8 @@ public class RequestBuilder {
     HttpURLConnection.setFollowRedirects(presetVal);
     if (response.getCode() == 301 || response.getCode() == 302) {
       return response.getHeader("Location");
-    } else {
-      throw new JumblrException(response);
     }
+    throw new JumblrException(response);
   }
 
   public ResponseWrapper postMultipart(final String path, final Map<String, ?> bodyMap) throws IOException {
@@ -158,21 +163,22 @@ public class RequestBuilder {
 
   /* package-visible for testing */ ResponseWrapper clear(final Response response) {
     rateLimits = new RateLimits(response.getHeaders());
-    if (response.getCode() == 200 || response.getCode() == 201) {
-      final String json = response.getBody();
-      try {
-        final Gson gson = new GsonBuilder().registerTypeAdapter(JsonElement.class, new JsonElementDeserializer())
-            .create();
-        final ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
-        if (wrapper == null) {
-          throw new JumblrException(response);
-        }
-        wrapper.setClient(client);
-        return wrapper;
-      } catch (final JsonSyntaxException ex) {
+    if (response.getCode() != 200 && response.getCode() != 201) {
+      throw new JumblrException(response);
+    }
+    final String json = response.getBody();
+    try {
+      final Gson gson = new GsonBuilder().registerTypeAdapter(JsonElement.class, new JsonElementDeserializer())
+          .registerTypeAdapter(Photo.class, new PhotoTypeAdapter())
+          .registerTypeAdapter(VideoPost.class, new VideoPostTypeAdapter())
+          .registerTypeAdapter(AudioPost.class, new AudioPostTypeAdapter()).create();
+      final ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
+      if (wrapper == null) {
         throw new JumblrException(response);
       }
-    } else {
+      wrapper.setClient(client);
+      return wrapper;
+    } catch (final JsonSyntaxException ex) {
       throw new JumblrException(response);
     }
   }
@@ -186,9 +192,9 @@ public class RequestBuilder {
       for (final String value : values) {
         final String[] kvp = value.split("=");
         if (kvp != null && kvp.length == 2) {
-          if (kvp[0].equals("oauth_token")) {
+          if ("oauth_token".equals(kvp[0])) {
             extractedToken = kvp[1];
-          } else if (kvp[0].equals("oauth_token_secret")) {
+          } else if ("oauth_token_secret".equals(kvp[0])) {
             extractedSecret = kvp[1];
           }
         }
@@ -204,9 +210,8 @@ public class RequestBuilder {
   /* package-visible for testing */ Token clearXAuth(final Response response) {
     if (response.getCode() == 200 || response.getCode() == 201) {
       return parseXAuthResponse(response);
-    } else {
-      throw new JumblrException(response);
     }
+    throw new JumblrException(response);
   }
 
   private void sign(final OAuthRequest request) {
