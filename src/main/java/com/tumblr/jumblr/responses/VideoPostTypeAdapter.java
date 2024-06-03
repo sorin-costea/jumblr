@@ -15,6 +15,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.UnknownTypePost;
 import com.tumblr.jumblr.types.Video;
 import com.tumblr.jumblr.types.VideoPost;
 
@@ -31,7 +32,7 @@ public class VideoPostTypeAdapter extends TypeAdapter<VideoPost> {
   public void write(final JsonWriter out, final VideoPost value) throws IOException {
     out.beginObject();
 
-    final JsonObject parentJson = gson.toJsonTree(value, Post.class).getAsJsonObject();
+    final JsonObject parentJson = gson.toJsonTree(value, UnknownTypePost.class).getAsJsonObject();
     for (final Map.Entry<String, JsonElement> entry : parentJson.entrySet()) {
       out.name(entry.getKey());
       gson.toJson(entry.getValue(), out);
@@ -67,8 +68,8 @@ public class VideoPostTypeAdapter extends TypeAdapter<VideoPost> {
 
     final VideoPost childClass = new VideoPost(caption, permalink_url, thumbnail_url, thumbnail_width, thumbnail_height,
         videoList);
-    final Post parentClass = gson.fromJson(jsonObject, Post.class);
-    for (final Field field : Post.class.getDeclaredFields()) {
+    final Post parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
+    for (final Field field : UnknownTypePost.class.getDeclaredFields()) {
       try {
         field.setAccessible(true);
         field.set(childClass, field.get(parentClass));

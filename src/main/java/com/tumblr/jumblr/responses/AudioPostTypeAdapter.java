@@ -13,6 +13,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.tumblr.jumblr.types.AudioPost;
 import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.UnknownTypePost;
 
 /**
  * A java-io.File cannot be deserialized here, and a returned Photo will of course have no file anyway, so shouldn't
@@ -27,7 +28,7 @@ public class AudioPostTypeAdapter extends TypeAdapter<AudioPost> {
   public void write(final JsonWriter out, final AudioPost value) throws IOException {
     out.beginObject();
 
-    final JsonObject parentJson = gson.toJsonTree(value, Post.class).getAsJsonObject();
+    final JsonObject parentJson = gson.toJsonTree(value, UnknownTypePost.class).getAsJsonObject();
     for (final Map.Entry<String, JsonElement> entry : parentJson.entrySet()) {
       out.name(entry.getKey());
       gson.toJson(entry.getValue(), out);
@@ -63,8 +64,8 @@ public class AudioPostTypeAdapter extends TypeAdapter<AudioPost> {
 
     final AudioPost childClass = new AudioPost(caption, player, audioUrl, plays, albumArt, artist, album, trackName,
         trackNumber, year);
-    final Post parentClass = gson.fromJson(jsonObject, Post.class);
-    for (final Field field : Post.class.getDeclaredFields()) {
+    final Post parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
+    for (final Field field : UnknownTypePost.class.getDeclaredFields()) {
       try {
         field.setAccessible(true);
         field.set(childClass, field.get(parentClass));
