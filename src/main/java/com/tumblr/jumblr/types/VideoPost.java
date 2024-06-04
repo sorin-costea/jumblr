@@ -9,7 +9,7 @@ import java.util.Map;
  *
  * @author jc
  */
-public class VideoPost extends Post {
+public class VideoPost extends SafePost {
 
   private final List<Video> player;
   private String caption;

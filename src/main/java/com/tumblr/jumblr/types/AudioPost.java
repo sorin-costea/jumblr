@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * @author jc
  */
-public class AudioPost extends Post {
+public class AudioPost extends SafePost {
 
   private String caption;
   private final String player;
