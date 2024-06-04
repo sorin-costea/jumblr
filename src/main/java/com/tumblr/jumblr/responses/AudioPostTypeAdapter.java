@@ -12,7 +12,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.tumblr.jumblr.types.AudioPost;
-import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.UnknownTypePost;
 
 /**
@@ -64,7 +63,7 @@ public class AudioPostTypeAdapter extends TypeAdapter<AudioPost> {
 
     final AudioPost childClass = new AudioPost(caption, player, audioUrl, plays, albumArt, artist, album, trackName,
         trackNumber, year);
-    final Post parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
+    final UnknownTypePost parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
     for (final Field field : UnknownTypePost.class.getDeclaredFields()) {
       try {
         field.setAccessible(true);

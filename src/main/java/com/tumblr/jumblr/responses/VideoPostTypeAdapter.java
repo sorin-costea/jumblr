@@ -14,7 +14,6 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.UnknownTypePost;
 import com.tumblr.jumblr.types.Video;
 import com.tumblr.jumblr.types.VideoPost;
@@ -68,7 +67,7 @@ public class VideoPostTypeAdapter extends TypeAdapter<VideoPost> {
 
     final VideoPost childClass = new VideoPost(caption, permalink_url, thumbnail_url, thumbnail_width, thumbnail_height,
         videoList);
-    final Post parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
+    final UnknownTypePost parentClass = gson.fromJson(jsonObject, UnknownTypePost.class);
     for (final Field field : UnknownTypePost.class.getDeclaredFields()) {
       try {
         field.setAccessible(true);
