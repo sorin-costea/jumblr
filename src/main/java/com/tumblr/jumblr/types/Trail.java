@@ -3,7 +3,7 @@ package com.tumblr.jumblr.types;
 public class Trail {
 
   private Blog blog;
-  private Post post;
+  private SafePost post;
   private String content_raw, content;
   private Boolean is_root_item;
 
