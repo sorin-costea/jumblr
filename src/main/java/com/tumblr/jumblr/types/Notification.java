@@ -9,7 +9,7 @@ public class Notification {
   private Long target_post_id;
   private String from_tumblelog_name, target_tumblelog_name;
   private Long post_id;
-  private Boolean from_tumblelog_is_adult, followed, unread;
+  private boolean from_tumblelog_is_adult, followed, unread;
   private List<String> post_tags;
   private String target_post_summary, added_text, reply_text;
 
@@ -109,21 +109,21 @@ public class Notification {
   /**
    * @return the from_tumblelog_is_adult
    */
-  public Boolean getFromTumblelogIsAdult() {
+  public boolean getFromTumblelogIsAdult() {
     return from_tumblelog_is_adult;
   }
 
   /**
    * @return the followed
    */
-  public Boolean getFollowed() {
+  public boolean getFollowed() {
     return followed;
   }
 
   /**
    * @return the unread
    */
-  public Boolean getUnread() {
+  public boolean getUnread() {
     return unread;
   }
 

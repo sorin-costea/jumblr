@@ -57,10 +57,10 @@ public abstract class Post extends Resource {
   private String format;
   private String date;
   private List<String> tags;
-  private Boolean bookmarklet, mobile;
+  private boolean bookmarklet, mobile;
   private String source_url;
   private String source_title;
-  private Boolean liked;
+  private boolean liked;
   private String slug;
   private Long reblogged_from_id, reblogged_root_id;
   private String reblogged_from_url, reblogged_from_name, reblogged_from_title;
@@ -84,7 +84,7 @@ public abstract class Post extends Resource {
    *
    * @return boolean
    */
-  public Boolean isLiked() {
+  public boolean isLiked() {
     return liked;
   }
 
@@ -111,7 +111,7 @@ public abstract class Post extends Resource {
    *
    * @return boolean
    */
-  public Boolean isMobile() {
+  public boolean isMobile() {
     return mobile;
   }
 
@@ -120,7 +120,7 @@ public abstract class Post extends Resource {
    *
    * @return boolean
    */
-  public Boolean isBookmarklet() {
+  public boolean isBookmarklet() {
     return bookmarklet;
   }
 

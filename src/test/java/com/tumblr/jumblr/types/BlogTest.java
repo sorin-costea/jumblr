@@ -4,14 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.google.gson.Gson;
 import com.tumblr.jumblr.JumblrClient;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Blog tests
@@ -26,7 +26,7 @@ public class BlogTest extends TypeTest {
   private final String name = "name.com", title = "title", description = "desc";
   private final Integer posts = 10, likes = 11, followers = 10;
   private final Long updated = 123456L;
-  private final Boolean ask = false, ask_anon = true;
+  private final boolean ask = false, ask_anon = true;
 
   @Before
   public void setup() throws IOException {

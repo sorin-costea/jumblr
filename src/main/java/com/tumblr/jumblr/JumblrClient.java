@@ -9,6 +9,7 @@ import java.util.Map;
 import com.tumblr.jumblr.request.RateLimits;
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Follower;
 import com.tumblr.jumblr.types.Limit;
 import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
@@ -203,11 +204,11 @@ public class JumblrClient {
    *
    * @return the blog object for this blog
    */
-  public List<User> blogFollowers(final String blogName, final Map<String, ?> options) {
-    return requestBuilder.get(JumblrClient.blogPath(blogName, "/followers"), options).getUsers();
+  public List<Follower> blogFollowers(final String blogName, final Map<String, ?> options) {
+    return requestBuilder.get(JumblrClient.blogPath(blogName, "/followers"), options).getFollowers();
   }
 
-  public List<User> blogFollowers(final String blogName) {
+  public List<Follower> blogFollowers(final String blogName) {
     return this.blogFollowers(blogName, null);
   }
 

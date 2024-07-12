@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.AudioPost;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.Follower;
 import com.tumblr.jumblr.types.Notes;
 import com.tumblr.jumblr.types.Notifications;
 import com.tumblr.jumblr.types.Photo;
@@ -69,6 +70,17 @@ public class ResponseWrapper {
     final JsonObject object = (JsonObject) response;
     final List<User> l = gson.fromJson(object.get("users"), new TypeToken<List<User>>() {}.getType());
     for (final User e : l) {
+      e.setClient(client);
+    }
+    return l;
+  }
+
+  // NOTE: needs to be duplicated logic due to Java erasure of generic types
+  public List<Follower> getFollowers() {
+    final Gson gson = gsonParser();
+    final JsonObject object = (JsonObject) response;
+    final List<Follower> l = gson.fromJson(object.get("users"), new TypeToken<List<Follower>>() {}.getType());
+    for (final Follower e : l) {
       e.setClient(client);
     }
     return l;

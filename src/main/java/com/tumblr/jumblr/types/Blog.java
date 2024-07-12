@@ -136,11 +136,11 @@ public class Blog extends Resource {
    *
    * @return A List of users
    */
-  public List<User> followers(final Map<String, ?> options) {
+  public List<Follower> followers(final Map<String, ?> options) {
     return client.blogFollowers(name, options);
   }
 
-  public List<User> followers() {
+  public List<Follower> followers() {
     return this.followers(null);
   }
 

@@ -14,7 +14,7 @@ public class Note {
   private String blog_name, blog_url, reblog_parent_blog_name, type;
   private Long post_id;
   private String reply_text, added_text;
-  private Boolean followed;
+  private boolean followed;
 
   /**
    * Get the timestamp of this note
@@ -93,7 +93,7 @@ public class Note {
    *
    * @return is followed.
    */
-  public Boolean getFollowed() {
+  public boolean getFollowed() {
     return followed;
   }
 

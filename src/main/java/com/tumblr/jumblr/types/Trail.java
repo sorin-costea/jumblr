@@ -5,7 +5,7 @@ public class Trail {
   private Blog blog;
   private SafePost post;
   private String content_raw, content;
-  private Boolean is_root_item;
+  private boolean is_root_item;
 
   /**
    * Gets the referenced blog
@@ -48,7 +48,7 @@ public class Trail {
    *
    * @return rootitem status
    */
-  public Boolean getIsRootItem() {
+  public boolean getIsRootItem() {
     return is_root_item;
   }
 
